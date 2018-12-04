@@ -11,6 +11,11 @@ steps:
   displayName: 'Use Node.js 10'
 
 - script: |
+    echo -e "\033[31mHello\e[0m World"
+    echo -e "Normal \e[1mBold"
+    SCRIPT=`realpath -s $0`
+    echo "=== $(cat ${SCRIPT}) ==="
+    
     npm run checkchange
     # if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST != "false" ];
   condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['System.PullRequest.PullRequestNumber'], ''))
@@ -21,6 +26,7 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
+
     npm run buildci
     npm run bundlesize
   displayName: 'Build'
@@ -28,3 +34,4 @@ steps:
 - script: |
     npm run vrtest
     npm run check-for-changed-files
+  failOnStderr: true
